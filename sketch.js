@@ -1,7 +1,7 @@
-const FRAMES_PER_EPISODE = 65;
+const FRAMES_PER_EPISODE = 60;
 
 let episodes, currentEpisode, lastEpisode, house;
-let members = [];
+let currentMembers = {};
 
 function preload() {
   episodes = loadTable('season-data.csv', 'csv', 'header').getRows();
@@ -18,6 +18,7 @@ function setup() {
       titleSize: 60,
       headerSize: 32,
       subheaderSize: 27,
+      nameSize: 20,
       topStep: 42,
     }
     house = new House(0.5 * width, 0.55 * height);
@@ -26,7 +27,8 @@ function setup() {
       titleSize: 30,
       headerSize: 22,
       subheaderSize: 20,
-      topStep: 33,
+      nameSize: 18,
+      topStep: 36,
     }
     house = new House(0.7 * width, 0.5 * height);
   }
@@ -34,11 +36,6 @@ function setup() {
   // Start off from the 0th episode (so that entrances trigger on the transition to 1)
   currentEpisode = { number: 0, members: [] };
   lastEpisode = currentEpisode;
-
-  // Create the house
-  for (let i = 0; i < 6; i++) {
-    members.push(new Member());
-  }
 }
 
 function draw() {
@@ -53,13 +50,23 @@ function draw() {
     lastEpisode = currentEpisode;
     currentEpisode = episodes[episodeCounter - 1].obj;
 
-    // Display next episode infp
-    let memberNames = currentEpisode.members.split(';').join(', ');
-    print("Next episode", currentEpisode.number, '--', memberNames);
-  }
+    // Clean up the episode data
+    currentEpisode.members = currentEpisode.members.split(';');
+    print("Next episode", currentEpisode.number, '--', currentEpisode.members.join(', '));
 
-  // Check if the episode has changed
-  if (currentEpisode.number != lastEpisode.number) {
+    // Add new members
+    currentEpisode.members.forEach((memberName) => {
+      if (! Object.keys(currentMembers).includes(memberName)) {
+        currentMembers[memberName] = new Member(memberName);
+      }
+    });
+
+    // Have members leave
+    Object.values(currentMembers).forEach((member) => {
+      if (! currentEpisode.members.includes(member.name)) {
+        delete currentMembers[member.name];
+      }
+    });
   }
 
   // Draw the house
@@ -67,34 +74,45 @@ function draw() {
   house.display();
 
   if (int(currentEpisode.number) > 0) {
-    // Display the episode number and title
+    // Display the episode number
+    textSize(dimens.headerSize);
+    textStyle(BOLD);
+    textAlign(CENTER, BOTTOM);
+    text('Terrace House: Boys x Girls Next Door', width / 2, dimens.topStep * 1.6);
+
+    // Display the episode number
     textSize(dimens.subheaderSize);
     textStyle(NORMAL);
-    textAlign(CENTER);
-    text('Episode ' + currentEpisode.number, width / 2, dimens.topStep * 2);
+    textAlign(CENTER, BOTTOM);
+    text('Episode ' + currentEpisode.number, width / 2, dimens.topStep * 3);
+
+    // Display the episode number and title
     textSize(dimens.headerSize);
     textStyle(ITALIC);
-    text(currentEpisode.title, width / 2, dimens.topStep * 3);
+    text(currentEpisode.title, width / 2, dimens.topStep * 4);
 
-    // Move and draw the members
-    for (let i = 0; i < members.length; i++) {
-      members[i].move();
-      members[i].display();
-    }
+    drawMembers();
   } else {
     // Display the title
     textSize(dimens.titleSize);
     textStyle(NORMAL);
-    textAlign(CENTER);
+    textAlign(CENTER, BOTTOM);
     text('TERRACE BOX', width / 2, height / 2);
   }
+}
+
+function drawMembers() {
+  Object.values(currentMembers).forEach((member) => {
+    member.move();
+    member.display();
+  });
 }
 
 class House {
   constructor(houseWidth, houseHeight) {
     this.topLeft = {
       x: (width - houseWidth) / 2,
-      y: (height - houseHeight) / 2
+      y: ((height - houseHeight) / 2) + dimens.topStep * 1
     };
 
     this.width = houseWidth;
@@ -121,7 +139,7 @@ class Member {
 
     // Initialize characteristics
     this.speed = 3;
-    this.diameter = random(15, 30);
+    this.diameter = 30;
     this.radius = this.diameter / 2;
 
     // Initialize position in the house
@@ -144,5 +162,8 @@ class Member {
 
   display() {
     ellipse(this.x, this.y, this.diameter, this.diameter);
+    textSize(dimens.nameSize)
+    textAlign(CENTER, TOP);
+    text(this.name, this.x, this.y + this.radius);
   }
 }
