@@ -1,4 +1,4 @@
-const FRAMES_PER_EPISODE = 30;
+const FRAMES_PER_EPISODE = 10;
 
 let episodes, allMembers, currentEpisode, lastEpisode, house;
 let currentMembers = {};
@@ -48,7 +48,7 @@ function getEpisodeMembers(episodeNumber) {
 
 function draw() {
   // Figure out the right current episode
-  episodeCounter = str(int(frameCount / FRAMES_PER_EPISODE) - 1);
+  episodeCounter = str(int(frameCount / FRAMES_PER_EPISODE) - 5);
 
   // Check if its time for the next episode
   if (episodeCounter > 0 &&
