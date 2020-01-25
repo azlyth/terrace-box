@@ -1,4 +1,4 @@
-const FRAMES_PER_EPISODE = 60;
+const FRAMES_PER_EPISODE = 30;
 
 let episodes, currentEpisode, lastEpisode, house;
 let currentMembers = {};
@@ -96,8 +96,8 @@ function draw() {
     // Display the title
     textSize(dimens.titleSize);
     textStyle(NORMAL);
-    textAlign(CENTER, BOTTOM);
-    text('TERRACE BOX', width / 2, height / 2);
+    textAlign(CENTER, CENTER);
+    text('TERRACE BOX', width / 2, height / 2 + dimens.topStep);
   }
 }
 
@@ -112,7 +112,7 @@ class House {
   constructor(houseWidth, houseHeight) {
     this.topLeft = {
       x: (width - houseWidth) / 2,
-      y: ((height - houseHeight) / 2) + dimens.topStep * 1
+      y: ((height - houseHeight) / 2) + dimens.topStep
     };
 
     this.width = houseWidth;
@@ -138,8 +138,8 @@ class Member {
     this.name = name;
 
     // Initialize characteristics
-    this.speed = 3;
-    this.diameter = 30;
+    this.speed = 2;
+    this.diameter = 50;
     this.radius = this.diameter / 2;
 
     // Initialize position in the house
@@ -163,6 +163,7 @@ class Member {
   display() {
     ellipse(this.x, this.y, this.diameter, this.diameter);
     textSize(dimens.nameSize)
+    textStyle(NORMAL);
     textAlign(CENTER, TOP);
     text(this.name, this.x, this.y + this.radius);
   }
