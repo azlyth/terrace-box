@@ -1,10 +1,11 @@
 const FRAMES_PER_EPISODE = 30;
 
-let episodes, currentEpisode, lastEpisode, house;
+let episodes, allMembers, currentEpisode, lastEpisode, house;
 let currentMembers = {};
 
 function preload() {
-  episodes = loadTable('data/bgnd.csv', 'csv', 'header').getRows();
+  episodes = loadTable('data/bgnd-episodes.csv', 'csv', 'header').getRows();
+  allMembers = loadJSON('data/bgnd-members.json');
 }
 
 function setup() {
@@ -40,6 +41,11 @@ function setup() {
   lastEpisode = currentEpisode;
 }
 
+function getEpisodeMembers(episodeNumber) {
+  return Object.values(allMembers)
+               .filter(member => (member.start <= episodeNumber) && (episodeNumber <= member.end))
+}
+
 function draw() {
   // Figure out the right current episode
   episodeCounter = str(int(frameCount / FRAMES_PER_EPISODE) - 1);
@@ -51,21 +57,19 @@ function draw() {
     // Transition the episode
     lastEpisode = currentEpisode;
     currentEpisode = episodes[episodeCounter - 1].obj;
-
-    // Clean up the episode data
-    currentEpisode.members = currentEpisode.members.split(';');
-    print("Next episode", currentEpisode.number, '--', currentEpisode.members.join(', '));
+    episodeMembers = getEpisodeMembers(episodeCounter);
 
     // Add new members
-    currentEpisode.members.forEach((memberName) => {
-      if (! Object.keys(currentMembers).includes(memberName)) {
-        currentMembers[memberName] = new Member(memberName);
+    episodeMembers.forEach((member) => {
+      if (! Object.keys(currentMembers).includes(member.name)) {
+        currentMembers[member.name] = new Member(member.name);
       }
     });
 
     // Have members leave
+    episodeMemberNames = episodeMembers.map(m => m.name);
     Object.values(currentMembers).forEach((member) => {
-      if (! currentEpisode.members.includes(member.name)) {
+      if (! episodeMemberNames.includes(member.name)) {
         delete currentMembers[member.name];
       }
     });
