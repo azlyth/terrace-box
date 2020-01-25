@@ -12,14 +12,23 @@ function setup() {
   //frameRate(10);
   createCanvas(windowWidth, windowHeight);
 
-  let desktop = true;
+  let desktop = width > 500;
   if (desktop) {
     dimens = {
-      textSize: 32,
-      topStep: 50,
+      titleSize: 60,
+      headerSize: 32,
+      subheaderSize: 27,
+      topStep: 42,
     }
+    house = new House(0.5 * width, 0.55 * height);
   } else {
-
+    dimens = {
+      titleSize: 30,
+      headerSize: 22,
+      subheaderSize: 20,
+      topStep: 33,
+    }
+    house = new House(0.7 * width, 0.5 * height);
   }
 
   // Start off from the 0th episode (so that entrances trigger on the transition to 1)
@@ -27,7 +36,6 @@ function setup() {
   lastEpisode = currentEpisode;
 
   // Create the house
-  house = new House();
   for (let i = 0; i < 6; i++) {
     members.push(new Member());
   }
@@ -54,19 +62,19 @@ function draw() {
   if (currentEpisode.number != lastEpisode.number) {
   }
 
-  // Color the background
+  // Draw the house
   background('white');
   house.display();
 
-  // Draw the title
   if (int(currentEpisode.number) > 0) {
-    textSize(dimens.textSize);
+    // Display the episode number and title
+    textSize(dimens.subheaderSize);
     textStyle(NORMAL);
     textAlign(CENTER);
     text('Episode ' + currentEpisode.number, width / 2, dimens.topStep * 2);
-
+    textSize(dimens.headerSize);
     textStyle(ITALIC);
-    text(currentEpisode.title, width / 2, 150);
+    text(currentEpisode.title, width / 2, dimens.topStep * 3);
 
     // Move and draw the members
     for (let i = 0; i < members.length; i++) {
@@ -75,7 +83,7 @@ function draw() {
     }
   } else {
     // Display the title
-    textSize(50);
+    textSize(dimens.titleSize);
     textStyle(NORMAL);
     textAlign(CENTER);
     text('TERRACE BOX', width / 2, height / 2);
@@ -83,14 +91,14 @@ function draw() {
 }
 
 class House {
-  constructor() {
+  constructor(houseWidth, houseHeight) {
     this.topLeft = {
-      x: width / 4,
-      y: height / 4
+      x: (width - houseWidth) / 2,
+      y: (height - houseHeight) / 2
     };
 
-    this.width = width / 2;
-    this.height = height / 2;
+    this.width = houseWidth;
+    this.height = houseHeight;
   }
 
   display() {
