@@ -4,7 +4,7 @@ let episodes, currentEpisode, lastEpisode, house;
 let currentMembers = {};
 
 function preload() {
-  episodes = loadTable('season-data.csv', 'csv', 'header').getRows();
+  episodes = loadTable('data/bgnd.csv', 'csv', 'header').getRows();
 }
 
 function setup() {
@@ -18,8 +18,9 @@ function setup() {
       titleSize: 60,
       headerSize: 32,
       subheaderSize: 27,
-      nameSize: 20,
+      nameSize: 23,
       topStep: 42,
+      memberSize: 55,
     }
     house = new House(0.5 * width, 0.55 * height);
   } else {
@@ -29,6 +30,7 @@ function setup() {
       subheaderSize: 20,
       nameSize: 18,
       topStep: 36,
+      memberSize: 40,
     }
     house = new House(0.7 * width, 0.5 * height);
   }
@@ -40,7 +42,7 @@ function setup() {
 
 function draw() {
   // Figure out the right current episode
-  episodeCounter = str(int(frameCount / FRAMES_PER_EPISODE));
+  episodeCounter = str(int(frameCount / FRAMES_PER_EPISODE) - 1);
 
   // Check if its time for the next episode
   if (episodeCounter > 0 &&
@@ -139,7 +141,7 @@ class Member {
 
     // Initialize characteristics
     this.speed = 2;
-    this.diameter = 50;
+    this.diameter = dimens.memberSize;
     this.radius = this.diameter / 2;
 
     // Initialize position in the house
