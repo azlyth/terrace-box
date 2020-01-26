@@ -1,73 +1,91 @@
 [{
   "name": "Tecchan",
+  "image": "images/members/member (75).jpg",
   "start": 1,
   "end": 98
 }, {
   "name": "Seina",
+  "image": "images/members/member (64).jpg",
   "start": 1,
   "end": 29
 }, {
   "name": "Seina",
+  "image": "images/members/member (64).jpg",
   "start": 65,
   "end": 74
 }, {
   "name": "Rie",
+  "image": "images/members/member (55).jpg",
   "start": 1,
   "end": 12
 }, {
   "name": "Masato",
+  "image": "images/members/member (38).jpg",
   "start": 1,
   "end": 12
 }, {
   "name": "Shota",
+  "image": "images/members/member (68).jpg",
   "start": 1,
   "end": 15
 }, {
   "name": "Momoko",
+  "image": "images/members/member (50).jpg",
   "start": 1,
   "end": 25
 }, {
   "name": "Hana",
+  "image": "images/members/member (19).jpg",
   "start": 14,
   "end": 38
 }, {
   "name": "Daiki",
+  "image": "images/members/member (13).jpg",
   "start": 16,
   "end": 61
 }, {
   "name": "Ouji",
+  "image": "images/members/member (74).jpg",
   "start": 19,
   "end": 38
 }, {
   "name": "Aya",
+  "image": "images/members/member (7).jpg",
   "start": 27,
   "end": 38
 }, {
   "name": "Miwako",
+  "image": "images/members/member (46).jpg",
   "start": 29,
   "end": 61
 }, {
   "name": "Midori",
+  "image": "images/members/member (43).jpg",
   "start": 39,
   "end": 50
 }, {
   "name": "Rina",
+  "image": "images/members/member (57).jpg",
   "start": 39,
   "end": 65
 }, {
   "name": "Yosuke",
+  "image": "images/members/member (78).jpg",
   "start": 39,
   "end": 74
 }, {
   "name": "Mai",
+  "image": "images/members/member (33).jpg",
   "start": 51,
   "end": 74
 }, {
   "name": "Chie",
+  "image": "images/members/member (10).jpg",
   "start": 63,
   "end": 74
 }, {
   "name": "Ippei",
+  "image": "images/members/member (24).jpg",
   "start": 63,
   "end": 87
 }]

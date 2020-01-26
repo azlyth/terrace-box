@@ -62,7 +62,7 @@ function draw() {
     // Add new members
     episodeMembers.forEach((member) => {
       if (! Object.keys(currentMembers).includes(member.name)) {
-        currentMembers[member.name] = new Member(member.name);
+        currentMembers[member.name] = new Member(member);
       }
     });
 
@@ -90,12 +90,12 @@ function draw() {
     textSize(dimens.subheaderSize);
     textStyle(NORMAL);
     textAlign(CENTER, BOTTOM);
-    text('Episode ' + currentEpisode.number, width / 2, dimens.topStep * 3);
+    text('Episode ' + currentEpisode.number, width / 2, dimens.topStep * 3.4);
 
     // Display the episode number and title
     textSize(dimens.headerSize);
     textStyle(ITALIC);
-    text(currentEpisode.title, width / 2, dimens.topStep * 4);
+    text(currentEpisode.title, width / 2, dimens.topStep * 4.4);
 
     drawMembers();
   } else {
@@ -140,8 +140,12 @@ class House {
 }
 
 class Member {
-  constructor(name) {
-    this.name = name;
+  constructor(data) {
+    this.data = data;
+    this.name = data.name;
+
+    // Load the image
+    this.image = loadImage(data.image);
 
     // Initialize characteristics
     this.speed = 2;
@@ -167,10 +171,14 @@ class Member {
   }
 
   display() {
-    ellipse(this.x, this.y, this.diameter, this.diameter);
+    //ellipse(this.x, this.y, this.diameter, this.diameter);
     textSize(dimens.nameSize)
     textStyle(NORMAL);
     textAlign(CENTER, TOP);
-    text(this.name, this.x, this.y + this.radius);
+    text(this.name, this.x, this.y + 1.5 * this.radius);
+
+    this.image.resize(0, 3 * this.radius);
+    imageMode(CENTER);
+    image(this.image, this.x, this.y);
   }
 }
