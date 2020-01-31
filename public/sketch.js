@@ -1,11 +1,22 @@
-const FRAMES_PER_EPISODE = 10;
+const FRAMES_PER_EPISODE = 20;
 
-let episodes, allMembers, currentEpisode, lastEpisode, house;
+let series, title, episodes, allMembers, currentEpisode, lastEpisode, house;
 let currentMembers = {};
 
+function isTokyo2020() {
+  
+}
+
+
 function preload() {
-  episodes = loadTable('data/bgnd-episodes.csv', 'csv', 'header').getRows();
-  allMembers = loadJSON('data/bgnd-members.json');
+  //series = 'bgnd';
+  //title = 'Terrace House: Boys x Girls Next Door'
+
+  series = 'tokyo20192020';
+  title = 'Terrace House: Tokyo 2019-2020'
+
+  episodes = loadTable('data/' + series + '/episodes.csv', 'csv', 'header').getRows();
+  allMembers = loadJSON('data/' + series + '/members.json');
 }
 
 function setup() {
@@ -84,7 +95,7 @@ function draw() {
     textSize(dimens.headerSize);
     textStyle(BOLD);
     textAlign(CENTER, BOTTOM);
-    text('Terrace House: Boys x Girls Next Door', width / 2, dimens.topStep * 1.6);
+    text(title, width / 2, dimens.topStep * 1.6);
 
     // Display the episode number
     textSize(dimens.subheaderSize);
